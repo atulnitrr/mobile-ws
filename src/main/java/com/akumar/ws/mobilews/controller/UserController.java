@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.akumar.ws.mobilews.exceptions.UserServiceException;
 import com.akumar.ws.mobilews.modal.request.UpdateUserRequest;
 import com.akumar.ws.mobilews.modal.request.UserRequest;
 import com.akumar.ws.mobilews.modal.response.User;
@@ -45,9 +46,10 @@ public class UserController {
     @GetMapping(value = "/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<User> getUser(@PathVariable final String userId) {
 
-        final String name = null;
-        int len =  name.length();
-//        System.out.println(name.length());
+        if (true) {
+            throw new UserServiceException(" A new user service exception is thrown ");
+        }
+
         if (users.containsKey(userId)) {
             return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
         } else {
