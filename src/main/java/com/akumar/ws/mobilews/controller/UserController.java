@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.akumar.ws.mobilews.modal.request.UpdateUserRequest;
 import com.akumar.ws.mobilews.modal.request.UserRequest;
 import com.akumar.ws.mobilews.modal.response.User;
 
@@ -51,8 +52,9 @@ public class UserController {
 
     }
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes =
-            {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public  ResponseEntity<User> createUser(@Valid @RequestBody UserRequest userRequest) {
 
         final User user = new User();
@@ -71,9 +73,16 @@ public class UserController {
 
     }
 
-    @PutMapping
-    public String updateUser() {
-        return "Update user was called";
+    @PutMapping(path = "{userId}",produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public User updateUser(@PathVariable final String userId,
+            @Valid @RequestBody final UpdateUserRequest updateUserRequest) {
+
+        final User storedUser = users.get(userId);
+        storedUser.setFirstName(updateUserRequest.getFirstName());
+        storedUser.setLastName(updateUserRequest.getLastName());
+        users.put(userId, storedUser);
+        return storedUser;
     }
 
     @DeleteMapping
