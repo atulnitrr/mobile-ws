@@ -44,6 +44,10 @@ public class UserController {
 //    http://localhost:8080/users/890
     @GetMapping(value = "/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<User> getUser(@PathVariable final String userId) {
+
+        final String name = null;
+        int len =  name.length();
+//        System.out.println(name.length());
         if (users.containsKey(userId)) {
             return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
         } else {
