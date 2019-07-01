@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import com.akumar.ws.mobilews.exceptions.UserServiceException;
 import com.akumar.ws.mobilews.modal.request.UpdateUserRequest;
 import com.akumar.ws.mobilews.modal.request.UserRequest;
 import com.akumar.ws.mobilews.modal.response.User;
+import com.akumar.ws.mobilews.service.UserService;
 
 
 @RestController
@@ -29,6 +31,9 @@ import com.akumar.ws.mobilews.modal.response.User;
 public class UserController {
 
     private Map<String, User> users;
+
+    @Autowired
+    private UserService userService;
 
 
     // Query string or Request param example
@@ -62,20 +67,7 @@ public class UserController {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public  ResponseEntity<User> createUser(@Valid @RequestBody UserRequest userRequest) {
-
-        final User user = new User();
-        user.setFirstName(userRequest.getFirstName());
-        user.setLastName(userRequest.getLastName());
-        user.setEmail(userRequest.getEmail());
-
-        final String userId = UUID.randomUUID().toString();
-        user.setUserId(userId);
-
-        if (users == null) {
-            users = new HashMap<>();
-        }
-        users.put(userId, user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userService.createUser(userRequest), HttpStatus.OK);
 
     }
 
