@@ -85,8 +85,9 @@ public class UserController {
         return storedUser;
     }
 
-    @DeleteMapping
-    public String deleteUser() {
-        return "Delete user was called";
+    @DeleteMapping(path = "{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable final String userId) {
+        users.remove(userId);
+        return ResponseEntity.noContent().build();
     }
 }
