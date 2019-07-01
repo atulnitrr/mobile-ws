@@ -1,5 +1,8 @@
 package com.akumar.ws.mobilews.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +26,8 @@ import com.akumar.ws.mobilews.modal.response.User;
 @RequestMapping("/users")
 public class UserController {
 
+    private Map<String, User> users;
+
 
     // Query string or Request param example
     // http://localhost:8080/users?limit=20&page=2
@@ -38,12 +43,12 @@ public class UserController {
 //    http://localhost:8080/users/890
     @GetMapping(value = "/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<User> getUser(@PathVariable final String userId) {
-        final User user = new User();
-        user.setUserId(userId);
-        user.setFirstName("First name");
-        user.setLastName("last name");
-        user.setEmail("emial@test.com");
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        if (users.containsKey(userId)) {
+            return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
     }
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes =
@@ -55,6 +60,13 @@ public class UserController {
         user.setLastName(userRequest.getLastName());
         user.setEmail(userRequest.getEmail());
 
+        final String userId = UUID.randomUUID().toString();
+        user.setUserId(userId);
+
+        if (users == null) {
+            users = new HashMap<>();
+        }
+        users.put(userId, user);
         return new ResponseEntity<>(user, HttpStatus.OK);
 
     }

@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 
 public class UserRequest {
 
+
     @NotNull(message = "firstName can not be null")
     @Size(min = 2, message = "firstName should be of minimum 2 chars")
     private String firstName;
