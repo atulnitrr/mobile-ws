@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.akumar.ws.mobilews.modal.response.User;
 
 
 @RestController
@@ -30,8 +31,13 @@ public class UserController {
     // path parameter or path variable example
 //    http://localhost:8080/users/890
     @GetMapping("/{userId}")
-    public String getUser(@PathVariable final String userId) {
-        return "Get user was called with userId " + userId;
+    public User getUser(@PathVariable final String userId) {
+        final User user = new User();
+        user.setUserId(userId);
+        user.setFirstName("First name");
+        user.setLastName("last name");
+        user.setEmail("emial@test.com");
+        return user;
     }
 
     @PostMapping
