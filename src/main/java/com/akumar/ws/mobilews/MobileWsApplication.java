@@ -8,7 +8,7 @@ public class MobileWsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MobileWsApplication.class, args);
-		System.out.println("Spring boot app is running tada -->ß");
+		System.out.println("Spring boot app is running tada");
 	}
 
 }
