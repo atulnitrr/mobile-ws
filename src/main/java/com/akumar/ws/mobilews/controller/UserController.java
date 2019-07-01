@@ -1,5 +1,6 @@
 package com.akumar.ws.mobilews.controller;
 
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class UserController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes =
             {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public  ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
+    public  ResponseEntity<User> createUser(@Valid @RequestBody UserRequest userRequest) {
 
         final User user = new User();
         user.setFirstName(userRequest.getFirstName());
